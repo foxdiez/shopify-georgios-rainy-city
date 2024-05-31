@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* custom classes */
+
+.font-body {
+    font-family: var(--font-body-family);
+}
+
+.font-heading {
+    font-family: var(--font-heading-family);
+    letter-spacing: 1px;
+}
+
+.active-element {
+    display: flex!important;
+    position: relative!important;
+    visibility: visible;
+    opacity: 1;
+}
+
+.selected-answer answer-icon {
+    border-radius: 9999px;
+    border-width: 4px;
+}
+
+.selected-answer answer-text {
+    border-width: 3px;
+}
+
+.selected-answer answer-icon,
+.selected-answer answer-text {
+    border-color: rgb(216 54 150);
+}
+
+.selected-answer span {
+    opacity: 100;
+}

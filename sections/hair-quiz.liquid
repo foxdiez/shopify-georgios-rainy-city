@@ -1,0 +1,292 @@
+{% liquid
+    assign background_colour = section.settings.background_colour
+    assign intro_image = section.settings.intro_image | default: null
+    assign title_first = section.settings.title_first | default: null
+    assign title_second = section.settings.title_second | default: null
+    assign paragraph = section.settings.paragraph | default: null
+
+    assign button_back = 'hair_quiz.back' | t 
+    assign button_next = 'hair_quiz.next' | t 
+    assign button_restart = 'hair_quiz.restart' | t 
+    assign button_exit = 'hair_quiz.exit' | t 
+%}
+
+<script src="{{ 'hair-quiz.js' | asset_url }}" defer="defer" type="module"></script>
+
+<hair-quiz 
+    class="
+        flex flex-col justify-center items-center
+        h-full
+        mb-8
+    " 
+    style="background-color: {{ background_colour }}"
+>
+    <progress-bar class="absolute invisible opacity-0 transition-opacity duration-300 gap-x-[5px] mt-20 lg:mt-28 mb-5 lg:mb-24 px-[30px]">
+        {% for block in section.blocks %}
+            {% case block.type %}
+                {% when 'question' %}
+                    {% render 'hair-quiz-progress-blocks', first: forloop.first, page: forloop.index %}
+                {%  when 'results' %}
+                    {% render 'hair-quiz-progress-blocks', page: forloop.index %}
+                {% endcase %}
+            {% endfor %}
+    </progress-bar>
+
+    <content-panel 
+        class="active-element absolute invisible opacity-0 transition-opacity duration-300 items-center my-20 xl:my-0" 
+        quiz-page="0"
+        welcome-page
+    >
+        <div class="h-full hidden xl:!flex">
+            {{ intro_image | image_url: width: 3200 | image_tag: class: 'object-cover object-left h-full', loading: 'lazy' }}
+        </div>
+
+        <div class="
+                flex flex-col items-center relative
+                px-[15px] md:px-[116px] xl:right-0 xl:w-1/2 xl:pr-[116px] xl:absolute
+            "
+        >
+            <h1 class="font-heading font-bold text-[30px] lg:text-[50px] leading-[43px] lg:leading-[63px] uppercase text-center text-pink-200 pb-5">
+                {{ title_first }}
+
+                <span class="text-pink-100">
+                    {{ title_second }}
+                </span>
+            </h1>
+
+            <div class="text-paragraph font-normal text-center pb-[30px] text-pink-500">
+                {{ paragraph }}
+            </div>
+
+            <button 
+                class="
+                    bg-pink-500 rounded-[5px] py-[18px] px-[38px]
+                    font-heading font-bold text-paragraph uppercase text-white 
+                    hover:bg-white hover:text-pink-500
+                    transition-colors duration-200
+                "
+                start-quiz
+            >
+                <span>
+                    {{ 'hair_quiz.start' | t }}
+                </span>
+            </button>
+        </div>
+
+        {% render 'hair-quiz-metaobject-data' %}
+    </content-panel>    
+
+    {% for block in section.blocks %}
+        {% case block.type %}
+            {% when 'question' %}
+                {% liquid
+                    assign title = block.settings.title | default: null
+                    assign info = block.settings.info | default: null
+                %}
+
+                {% render 'hair-quiz-content-panel', 
+                    loop_index: forloop.index, 
+                    title: title, 
+                    info: info, 
+                    answers: true
+                %}
+            {% when 'results' %}
+                {% liquid
+                    assign title = block.settings.title | default: null
+                    assign info = block.settings.info | default: null 
+                %}
+                
+                {% render 'hair-quiz-content-panel', 
+                    loop_index: forloop.index, 
+                    title: title, 
+                    info: info, 
+                    custom_attributes: 'results-page' 
+                %}
+            {% when 'recommended_products' %}
+                {% liquid
+                    assign product_list = block.settings.product_list 
+                    assign related_answers = block.settings.title | default: null
+                %}
+
+                {% for product in product_list %}
+                    <div class="absolute invisible opacity-0 transition-opacity duration-300 flex-col w-full md:w-[341px]" related-answers="{{ related_answers | replace: ", ", "," }}">
+                        <div class="flex flex-col aspect-auto">
+                            {{ product | image_url: width: 3200 | image_tag: class: 'object-cover object-center w-full h-full mb-10', loading: 'lazy' }}
+                        
+                            <div class="flex justify-between gap-x-3 mb-[30px] text-paragraph">
+                                <p>
+                                    {{ product.title }}
+                                </p>
+                                <span>
+                                    {{ product.price | money }}
+                                </span>
+                            </div>
+    
+                            <button 
+                                class="
+                                    w-[188px] bg-pink-500 rounded-[5px] py-[18px] w-full
+                                    font-heading font-bold text-paragraph uppercase text-white justify-center
+                                    hover:bg-white hover:text-pink-500
+                                    transition-colors duration-200
+                                "
+                                product-id={{ product.id }}
+                            >
+                                <span>
+                                    {{  'hair_quiz.add_to_cart' | t}}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+        {% endcase %}
+    {% endfor %}
+
+    <div 
+        class="flex flex-wrap justify-center gap-[23px] px-[30px]" 
+        products-container
+    >
+    </div>
+
+    <div 
+        class="absolute invisible opacity-0 transition-opacity duration-300 flex-col items-center w-full px-[30px] mb-[50px]"
+        quiz-direction-controls
+    >
+        <div class="w-full flex gap-x-5 justify-center md:gap-x-2.5 mb-7 md:mb-10">
+            {% render 'hair-quiz-button', 
+                text: button_back,
+                class: 'w-full md:px-[38px] bg-white text-pink-500 hover:bg-pink-500 hover:text-white',
+                custom_attributes: 'previous quiz-page="1"'
+            %}
+
+            {% render 'hair-quiz-button', 
+                text: button_next,
+                class: 'w-full md:px-[38px] bg-pink-500 text-white hover:bg-white hover:text-pink-500',
+                custom_attributes: 'next quiz-page="1"'
+            %}
+        </div>
+
+        {% render 'hair-quiz-button', 
+            text: button_restart,
+            class: 'text-pink-500 hover:text-white',
+            custom_attributes: 'restart'
+        %}
+    </div>
+
+    {% render 'hair-quiz-button', 
+        text: button_exit,
+        class: 'absolute invisible opacity-0 mt-20 mb-[50px] w-[188px] bg-white px-[38px] text-pink-500 hover:bg-pink-500 hover:text-white',
+        custom_attributes: 'exit'
+    %}
+
+    <dialog class="border border-solid">
+        <div class="flex flex-col items-center gap-8 p-10 bg-pink-50">
+            <p>{{ 'hair_quiz.error_message' | t }}</p>
+
+            {% render 'hair-quiz-button', 
+                text: button_restart,
+                class: 'w-full text-pink-500 hover:text-white py-0',
+                custom_attributes: 'dialog-restart'
+            %}
+        </div>
+    </dialog>
+</hair-quiz>
+
+{% schema %}
+{
+  "name": "Hair quiz",
+  "class": "hair-quiz",
+  "settings": [
+    {
+        "type": "header",
+        "content": "General settings"
+    },
+    {
+        "type": "color",
+        "id": "background_colour",
+        "label": "Background colour"
+    },
+    {
+        "type": "header",
+        "content": "Welcome screen"
+    },
+    {
+        "type": "image_picker",
+        "id": "intro_image",
+        "label": "Background image"
+    },
+    {
+        "type": "textarea",
+        "id": "title_first",
+        "label": "Title - First part"
+    },
+    {
+        "type": "textarea",
+        "id": "title_second",
+        "label": "Title - Second part"
+    },
+    {
+        "type": "richtext",
+        "id": "paragraph",
+        "label": "Main paragraph"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Question page",
+      "type": "question",
+      "settings": [
+            {
+                "type": "textarea",
+                "id": "title",
+                "label": "Question"
+            },
+            {
+                "type": "textarea",
+                "id": "info",
+                "label": "Info paragraph",
+                "default": "Select all that apply."
+            }
+        ]
+    },
+    {
+        "name": "Results page",
+        "type": "results",
+        "settings": [
+            {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "textarea",
+                "id": "info",
+                "label": "Info paragraph",
+                "default": "Fusce gravida cursus arcu, imperdiet placerat neque mollis ut. In hac habitasse platea dictumst. Cras aliquet eros vel augue convallis."
+            }
+        ]
+    },
+    {
+        "name": "Recommended products",
+        "type": "recommended_products",
+        "settings": [
+          {
+            "type": "product_list",
+            "id": "product_list",
+            "label": "Products"
+          },
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Related answers",
+            "info": "Include all answers that relate to the matching selected product list, separating each one with a comma (,) . The defined answers can be found in Shopify's admin metaobjects."
+          }
+        ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hair quiz"
+    }
+  ]
+}
+{% endschema %}

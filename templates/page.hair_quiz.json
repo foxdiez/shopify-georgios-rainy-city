@@ -1,0 +1,103 @@
+{
+  "sections": {
+    "hair_quiz_NxDwp8": {
+      "type": "hair-quiz",
+      "blocks": {
+        "question_HB8naN": {
+          "type": "question",
+          "settings": {
+            "title": "What is your hair type?",
+            "info": "Select all that apply."
+          }
+        },
+        "question_e8JkQn": {
+          "type": "question",
+          "settings": {
+            "title": "What is your hair concern?",
+            "info": "Select all that apply."
+          }
+        },
+        "question_kYWMNb": {
+          "type": "question",
+          "settings": {
+            "title": "How do you style your hair?",
+            "info": "Select all that apply."
+          }
+        },
+        "results_6rmNmV": {
+          "type": "results",
+          "settings": {
+            "title": "Your suggested products",
+            "info": "Fusce gravida cursus arcu, imperdiet placerat neque mollis ut. In hac habitasse platea dictumst. Cras aliquet eros vel augue convallis."
+          }
+        },
+        "recommended_products_rG9kmy": {
+          "type": "recommended_products",
+          "settings": {
+            "product_list": [
+              "dawley-leather-ankle-boots",
+              "derwood-chair",
+              "apple-iphone-13",
+              "galaxy-s22"
+            ],
+            "title": "Straight, Spirals, Breakage & hair growth, Hair dryer, Air dry"
+          }
+        },
+        "recommended_products_Ffrwej": {
+          "type": "recommended_products",
+          "settings": {
+            "product_list": [
+              "lazar-jacket-in-black",
+              "ipad-10-2-8th-generation-2020"
+            ],
+            "title": "Wavy, Blonde care, Curl care, None"
+          }
+        },
+        "recommended_products_THNy9M": {
+          "type": "recommended_products",
+          "settings": {
+            "product_list": [
+              "heinz-chair",
+              "apple-imac-4-5k-24-2021-m1-256-gb-ssd-green",
+              "galaxy-s22"
+            ],
+            "title": "Wavy, None"
+          }
+        },
+        "recommended_products_HzRa3E": {
+          "type": "recommended_products",
+          "settings": {
+            "product_list": [
+              "apple-iphone-13",
+              "barking-goodyear-welted-leather-ankle-boots",
+              "dawley-leather-ankle-boots",
+              "derwood-chair",
+              "faringdon-lightweight-chelsea-boots"
+            ],
+            "title": "Default"
+          }
+        }
+      },
+      "block_order": [
+        "question_HB8naN",
+        "question_e8JkQn",
+        "question_kYWMNb",
+        "results_6rmNmV",
+        "recommended_products_rG9kmy",
+        "recommended_products_Ffrwej",
+        "recommended_products_THNy9M",
+        "recommended_products_HzRa3E"
+      ],
+      "settings": {
+        "background_colour": "#f5d6dd",
+        "intro_image": "shopify:\/\/shop_images\/hair-quiz-bg-intro.png",
+        "title_first": "find the perfect",
+        "title_second": "products for you",
+        "paragraph": "<p>Our personalised consultation will tailor your product line up based on your hair needs and concerns. Let the experts do the hard work for you. Find out your ideal cocktail of hair care designed to make you look as good as you feel.<\/p>"
+      }
+    }
+  },
+  "order": [
+    "hair_quiz_NxDwp8"
+  ]
+}

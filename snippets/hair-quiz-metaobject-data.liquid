@@ -1,0 +1,58 @@
+<div class="sr-only hidden">
+    {% liquid
+        assign hair_quiz_data = shop.metaobjects.hair_quiz_data.values
+    %}
+    
+    {% for hair_value in hair_quiz_data %}
+        <button 
+            class="
+                flex flex-col items-center gap-[33px] text-center group
+                {% if hair_value.image.value %}
+                    max-w-[119px]
+                {% else %}
+                    max-md:basis-[48%] md:w-[202px]
+                {% endif %} 
+            " 
+            quiz-page="{{ hair_value.page_number.value }}"
+            answer="{{ hair_value.answer.value }}"
+        >
+            {% if hair_value.image.value %}
+                <answer-icon 
+                    class="
+                        pointer-events-none
+                        w-[120px] h-[120px] 
+                        border-transparent border-4 rounded-full 
+                        group-hover:border-pink-500 group-hover:border-4 group-hover:rounded-full
+                    "
+                >
+                    {{ hair_value.image.value | image_url: width: 120 | image_tag: class: 'object-cover w-full h-full', loading: 'lazy' }}
+                </answer-icon>
+
+                <span class="
+                        pointer-events-none
+                        text-span font-bold tracking-wide uppercase text-dark-grey 
+                        opacity-50 group-hover:opacity-100
+                    "
+                >
+                    {{ hair_value.answer.value }}
+                </span>
+            {% else %}
+                <answer-text class="
+                        pointer-events-none
+                        w-full
+                        bg-pink-50 py-[15px] px-[10px] border-transparent border-[3px] rounded-[5px] 
+                        group-hover:border-pink-500 group-hover:border-[3px] group-hover:rounded-[5px]
+                    "
+                >
+                    <span 
+                        class=" 
+                            text-[13px] md:text-span font-bold tracking-wide uppercase text-dark-grey
+                        "
+                    >
+                        {{ hair_value.answer.value }}
+                    </span>
+                </answer-text>
+            {% endif %}
+        </button>
+    {% endfor %}
+</div>

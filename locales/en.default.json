@@ -57,6 +57,15 @@
       "name": "Slider"
     }
   },
+  "hair_quiz": {
+    "start": "Get started",
+    "back": "Go back",
+    "next": "Next",
+    "restart": "Restart quiz",
+    "exit": "Exit",
+    "add_to_cart": "Add to cart",
+    "error_message": "Please select 3 or more answers."
+  },
   "newsletter": {
     "label": "Email",
     "success": "Thanks for subscribing",

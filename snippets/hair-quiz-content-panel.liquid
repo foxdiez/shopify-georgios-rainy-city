@@ -1,0 +1,36 @@
+<content-panel 
+    class="
+        hidden absolute invisible opacity-0 transition-opacity duration-300
+        flex flex-col items-center relative px-[15px]
+        px-[30px]
+    "
+    quiz-page="{{ loop_index }}"
+    {{ custom_attributes }}
+>
+    {% if title or info %}
+        <div class="mb-[38px]">
+            <h2 class="font-heading font-bold text-2xl lg:text-heading tracking-widest text-center pb-5">
+                {{ title }}
+            </h2>
+
+            <div class="text-paragraph font-normal text-center">
+                {{ info }}
+            </div>
+        </div> 
+    {% endif %}
+
+    <div 
+        class="
+            flex flex-wrap justify-center
+            mb-[30px] gap-5
+
+            {% if custom_attributes == 'results-page' %}
+                lg:gap-[33px] 
+            {% else %}
+                lg:mb-[115px] lg:gap-[33px] 
+            {% endif %}
+        " 
+        answers-container
+    >
+    </div>
+</content-panel>
